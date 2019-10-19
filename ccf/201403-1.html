@@ -1,0 +1,29 @@
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title> - Hexo</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="John Doe">
+<meta name="description" content="#include &amp;lt;bits/stdc++.h&amp;gt;#define INF 0x7f7f7f7f#define MAXN 10000000using namespace std;int  data[1000];int main() {    for (int i =...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+	<link rel="stylesheet" href="/css/orange.css">
+</head>
+<body>
+<div id="top"></div>
+<!-- 代码高亮库 -->
+
+<link href="/lib/highlight/styles/atom-one-dark" rel="stylesheet" type="text/css">
+<p>#include &lt;bits/stdc++.h&gt;<br>#define INF 0x7f7f7f7f<br>#define MAXN 10000000<br>using namespace std;<br>int  data[1000];<br>int main() {<br>    for (int i = 0; i &lt; 1000; i++) data[i] = 0;<br>    int N;<br>    cin &gt;&gt; N;<br>    int cnt = 0;<br>    for (int i = 0; i &lt; N; i++) {<br>        int x;<br>        cin &gt;&gt; x;<br>        if (x &gt; 0) data[x]++;<br>        else data[-x]–;<br>        if (data[abs(x)] == 0) cnt++;<br>    }<br>    cout &lt;&lt; cnt &lt;&lt; endl;<br>}</p>

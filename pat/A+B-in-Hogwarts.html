@@ -1,0 +1,40 @@
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title>A+B in Hogwarts (20) - Hexo</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="John Doe">
+<meta name="description" content="题目描述1If you are a fan of Harry Potter, you would know the world of magic has its own currency system -- as Hagrid explained it to Harry, ...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+	<link rel="stylesheet" href="/css/orange.css">
+</head>
+<body>
+<div id="top"></div>
+<!-- 代码高亮库 -->
+
+<link href="/lib/highlight/styles/atom-one-dark" rel="stylesheet" type="text/css">
+<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a><strong>题目描述</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">If you are a fan of Harry Potter, you would know the world of magic has its own currency system -- as Hagrid explained it to Harry, &quot;Seventeen silver Sickles to a Galleon and twenty-nine Knuts to a Sickle, it&apos;s easy enough.&quot;  Your job is to write a program to compute A+B where A and B are given in the standard form of &quot;Galleon.Sickle.Knut&quot; (Galleon is an integer in [0, 107], Sickle is an integer in [0, 17), and Knut is an integer in [0, 29)).</span><br></pre></td></tr></table></figure>
+
+<h3 id="输入描述"><a href="#输入描述" class="headerlink" title="输入描述:"></a><strong>输入描述:</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Each input file contains one test case which occupies a line with A and B in the standard form, separated by one space.</span><br></pre></td></tr></table></figure>
+
+<h3 id="输出描述"><a href="#输出描述" class="headerlink" title="输出描述:"></a><strong>输出描述:</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">For each test case you should output the sum of A and B in one line, with the same format as the input.</span><br></pre></td></tr></table></figure>
+
+<h3 id="输入例子"><a href="#输入例子" class="headerlink" title="输入例子:"></a><strong>输入例子:</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3.2.1 10.16.27</span><br></pre></td></tr></table></figure>
+
+<h3 id="输出例子"><a href="#输出例子" class="headerlink" title="输出例子:"></a><strong>输出例子:</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">14.1.28</span><br></pre></td></tr></table></figure>
+
+<h3 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;bits/stdc++.h&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">int main() &#123;</span><br><span class="line">    int A1, A2, A3;</span><br><span class="line">    int B1, B2, B3;</span><br><span class="line">    scanf(&quot;%d.%d.%d %d.%d.%d&quot;, &amp;A1, &amp;A2, &amp;A3, &amp;B1, &amp;B2, &amp;B3);</span><br><span class="line">    int C3 = (A3+B3)%29;</span><br><span class="line">    int C2 = (A2+B2+(A3+B3)/29)%17;</span><br><span class="line">    int C1 = (A1+B1+(A2+B2+(A3+B3)/29)/17);</span><br><span class="line">    printf(&quot;%d.%d.%d&quot;, C1, C2, C3);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+

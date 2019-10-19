@@ -1,0 +1,44 @@
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title>Complete Binary Search Tree - Hexo</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="John Doe">
+<meta name="description" content="题目描述
+A Binary Search Tree (BST) is recursively defined as a binary tree which has the following properties:The left subtree of a node con...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+	<link rel="stylesheet" href="/css/orange.css">
+</head>
+<body>
+<div id="top"></div>
+<!-- 代码高亮库 -->
+
+<link href="/lib/highlight/styles/atom-one-dark" rel="stylesheet" type="text/css">
+<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a><strong>题目描述</strong></h3><blockquote>
+<p>A Binary Search Tree (BST) is recursively defined as a binary tree which has the following properties:<br>The left subtree of a node contains only nodes with keys less than the node’s key.<br>The right subtree of a node contains only nodes with keys greater than or equal to the node’s key.<br>Both the left and right subtrees must also be binary search trees.<br>A Complete Binary Tree (CBT) is a tree that is completely filled, with the possible exception of the bottom level, which is filled from left to right.<br>Now given a sequence of distinct non-negative integer keys, a unique BST can be constructed if it is required that the tree must also be a CBT.  You are supposed to output the level order traversal sequence of this BST.</p>
+</blockquote>
+<h3 id="输入描述"><a href="#输入描述" class="headerlink" title="输入描述:"></a><strong>输入描述:</strong></h3><blockquote>
+<p>Each input file contains one test case.  For each case, the first line contains a positive integer N (&lt;=1000).  Then N distinct non-negative integer keys are given in the next line.  All the numbers in a line are separated by a space and are no greater than 2000.</p>
+</blockquote>
+<h3 id="输出描述"><a href="#输出描述" class="headerlink" title="输出描述:"></a><strong>输出描述:</strong></h3><blockquote>
+<p>For each test case, print in one line the level order traversal sequence of the corresponding complete binary search tree.  All the numbers in a line must be separated by a space, and there must be no extra space at the end of the line.</p>
+</blockquote>
+<h3 id="输入例子"><a href="#输入例子" class="headerlink" title="输入例子:"></a><strong>输入例子:</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">10</span><br><span class="line">1 2 3 4 5 6 7 8 9 0</span><br></pre></td></tr></table></figure>
+
+<h3 id="输出例子"><a href="#输出例子" class="headerlink" title="输出例子:"></a><strong>输出例子:</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">6 3 8 1 5 7 9 0 2 4</span><br></pre></td></tr></table></figure>
+
+<h3 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn=<span class="number">1010</span>;</span><br><span class="line"><span class="keyword">int</span> n,data[maxn],cbst[maxn],index=<span class="number">0</span>; <span class="comment">//data存储输入的序列，cbst存储完全二叉查找树</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">create</span><span class="params">(<span class="keyword">int</span> root)</span></span>&#123;               <span class="comment">//按照中序来构建cbst，此csbt按顺序即为层序序列</span></span><br><span class="line">    <span class="keyword">if</span>(root&gt;n<span class="number">-1</span>) <span class="keyword">return</span>;             <span class="comment">//超过给定结点数，即为空结点，直接返回</span></span><br><span class="line">    create(<span class="number">2</span>*root+<span class="number">1</span>);                <span class="comment">//（根为0）完全二叉树结点i的左子女为2i+1，右子女为2i+2</span></span><br><span class="line">    cbst[root]=data[index++];</span><br><span class="line">    create(<span class="number">2</span>*root+<span class="number">2</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;data[i];</span><br><span class="line">    sort(data,data+n);               <span class="comment">//将输入序列升序排列，即为BST中序遍历序列</span></span><br><span class="line">    create(<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;cbst[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;n;i++)</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">" "</span>&lt;&lt;cbst[i];</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
