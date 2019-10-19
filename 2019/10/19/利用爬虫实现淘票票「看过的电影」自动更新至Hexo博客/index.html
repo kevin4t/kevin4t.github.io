@@ -4,11 +4,11 @@
 <html lang="zh-TW" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>歸檔: 2019 - Tangeinew.</title>
+    <title>利用爬虫实现淘票票「看过的电影」自动更新至Hexo博客 - Tangeinew.</title>
 <meta charset="utf-8">
 <meta name="X-UA-Compatible" content="IE=edge">
 <meta name="author" content="Kevin">
-<meta name="description" content="A Blog Powered By Hexo">
+<meta name="description" content="使用到的技术及工具：NodeJs、Js、CSS、Bootstrap、Express、Superagent、Chee...">
 <meta name="keywords" content="">
 
 <link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
@@ -20,7 +20,7 @@
     <meta name="renderer" content="webkit">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?46013021">
+<link rel="stylesheet" href="/css/journal.css?28506085">
 
 <script src="/js/loadCSS.js"></script>
 <script>
@@ -66,7 +66,7 @@
             <a class="a-block drawer-menu-item false" href="http://tangerinew.com">
                 主頁
             </a>
-            <a class="a-block drawer-menu-item active" href="/archives">
+            <a class="a-block drawer-menu-item false" href="/archives">
                 歸檔
             </a>
 
@@ -140,7 +140,7 @@
 
     <div class="nav-link-list">
 
-        <a class="a-block no-tint nav-link-item active" href="/archives">
+        <a class="a-block no-tint nav-link-item false" href="/archives">
             歸檔
         </a>
         
@@ -179,157 +179,53 @@
         </a>
 
         
-        
-
-        
-
-        
-        
     </div>
 </div>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
-        
-        
-        <div class="post-item-wrapper post-item-wrapper-no-hover">
-            <div class="post-item post-item-no-gaps">
-                <div class="post-item-info-wrapper">
-                    <div class="post-item-title  post-item-title-small">
+        <div class="post">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
+                <div class="post-title">
+                    利用爬虫实现淘票票「看过的电影」自动更新至Hexo博客
+                    <div class="post-meta">
+                        <time datetime="2019-10-19T13:40:50.000Z" itemprop="datePublished">
+                            2019-10-19 21:40
+                        </time>&nbsp;
                         
-                        <a href="/archives/2019/10">
-                            2019 / 10
-                        </a>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-
-        <a href="/2019/10/19/利用爬虫实现淘票票「看过的电影」自动更新至Hexo博客/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-gaps">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            利用爬虫实现淘票票「看过的电影」自动更新至Hexo博客
-                        </div>
-                        <div class="post-item-meta">
-                            2019-10-19
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        
-        
-
-        <a href="/2019/10/19/PAT/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-gaps">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            PAT刷题
-                        </div>
-                        <div class="post-item-meta">
-                            2019-10-19
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        
-        
-
-        <a href="/2019/10/19/love_letter/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-gaps">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            情书
-                        </div>
-                        <div class="post-item-meta">
-                            2019-10-19
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        
-        
-
-        <a href="/2019/10/19/CCF/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-gaps">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            CCF刷题
-                        </div>
-                        <div class="post-item-meta">
-                            2019-10-19
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        
-        
-
-        <a href="/2019/10/19/hello-world/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-gaps">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            Hello World
-                        </div>
-                        <div class="post-item-meta">
-                            2019-10-19
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        
-        
-        <div class="post-item-wrapper post-item-wrapper-no-hover">
-            <div class="post-item post-item-no-gaps">
-                <div class="post-item-info-wrapper">
-                    <div class="post-item-title  post-item-title-small">
-                        
-                        <a href="/archives/2019/09">
-                            2019 / 09
-                        </a>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-
-        <a href="/2019/09/27/Hexo_theme_Orange/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-gaps">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            Hexo Theme：Orange.
-                        </div>
-                        <div class="post-item-meta">
-                            2019-09-27
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        
-    </div>
     
+                        
+                    </div>
+                </div>
+            </div>
+    
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <p>使用到的技术及工具：<br>NodeJs、Js、CSS、Bootstrap、Express、Superagent、Cheerio</p>
+<p>额外需要的：<br>一台服务器</p>
+<h2 id="1-编写爬虫前的准备工作"><a href="#1-编写爬虫前的准备工作" class="headerlink" title="1. 编写爬虫前的准备工作"></a>1. 编写爬虫前的准备工作</h2><h2 id="2-编写爬虫"><a href="#2-编写爬虫" class="headerlink" title="2. 编写爬虫"></a>2. 编写爬虫</h2><h2 id="3-部署"><a href="#3-部署" class="headerlink" title="3. 部署"></a>3. 部署</h2><h2 id="4-Hexo自定义页面的搭建"><a href="#4-Hexo自定义页面的搭建" class="headerlink" title="4. Hexo自定义页面的搭建"></a>4. Hexo自定义页面的搭建</h2><p>使用Vue搭建Hexo的自定义页面</p>
+<p>Github项目地址</p>
 
+                </div>
+            </div>
+    
+            <nav class="post-pagination">
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/2019/10/19/PAT/">
+        下一篇<br>PAT刷题
+    </a>
+    
+</nav>
+
+    
+            
+
+
+        </div>
+    </div>
     <div class="single-column-footer">
     Proudly published with Hexo<br>
     
@@ -350,7 +246,9 @@
         integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
         integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?25225623"></script>
+<script src="/js/journal.js?60425307"></script>
+
+
 
 </body>
 </html>
