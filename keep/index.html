@@ -29,7 +29,7 @@
     <meta name="renderer" content="webkit">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?17709062">
+<link rel="stylesheet" href="/css/journal.css?41240758">
 
 <script src="/js/loadCSS.js"></script>
 <script>
@@ -206,6 +206,41 @@
       <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
     <![endif]-->
+	<script type="text/javascript">
+		function loadMoviesWatched() {
+			$.ajax({
+				url: 'http://39.105.111.183:5000/',
+				dataType:'json',//服务器返回json格式数据
+				type:'get',//HTTP请求类型
+				timeout:10000,//超时时间设置为10秒；
+				success:function(data){
+					document.getElementById("refreshTime").innerHTML += timestampToTime(data['data']['timestamp'])
+					document.getElementById("myDiv").innerHTML = ""
+					var list = data['data']['returnValue']['shows']
+					console.log(list)
+					var imageUrl = "https://gw.alicdn.com/"
+					for(var i = 0; i < list.length; i++) {
+						document.getElementById("myDiv").innerHTML += "<div id='' class='id-w'>" +
+						"<img src="+ imageUrl + list[i].poster +" style='height:200px; width:130px'>"+list[i].userComment.content+
+						"<div id=''> " + list[i].showName + "</div>" +
+						"<div id=''>" + list[i].director + "</div></div><hr>";
+						
+					}
+				}
+			});
+		}
+		function timestampToTime(timestamp) {
+			var date = new Date(parseInt(timestamp));//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+			Y = date.getFullYear() + '-';
+			M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+			D = date.getDate() + ' ';
+			h = date.getHours() + ':';
+			m = date.getMinutes() + ':';
+			s = date.getSeconds();
+			return Y+M+D+h+m+s;
+		}
+		window.onload = loadMoviesWatched
+	</script>
   </head>
   <body>
   
@@ -223,11 +258,9 @@
  <div class="tab-content">
   <div role="tabpanel" class="tab-pane fade in active" id="home">
 	<br>
-	<div class="alert alert-success" role="alert">...</div>
-	<div class="alert alert-warning alert-dismissible" role="alert">
-	  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	  <strong>Warning!</strong> Better check yourself, you're not looking too good.
-	</div>
+	<div class="alert alert-success" role="alert" id='refreshTime'>最后更新时间: </div>
+
+	<div id="myDiv"><h2>Loading...</h2></div>
   </div>
   <div role="tabpanel" class="tab-pane fade" id="profile">...2</div>
   <div role="tabpanel" class="tab-pane fade" id="messages">...3</div>
@@ -274,7 +307,7 @@
         integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
         integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?5067207"></script>
+<script src="/js/journal.js?87899625"></script>
 
 
 

@@ -4,11 +4,15 @@
 <html lang="zh-TW" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>歸檔: 2019/9 - Tangeinew.</title>
+    <title> - Tangeinew.</title>
 <meta charset="utf-8">
 <meta name="X-UA-Compatible" content="IE=edge">
 <meta name="author" content="Kevin">
-<meta name="description" content="A Blog Powered By Hexo">
+<meta name="description" content="相邻数对
+问题描述
+　　给定n个不同的整数，问这些数中有多少对整数，它们的值正好相差1。
+输入格式
+　　输入的第一...">
 <meta name="keywords" content="">
 
 <link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
@@ -20,7 +24,7 @@
     <meta name="renderer" content="webkit">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?59187770">
+<link rel="stylesheet" href="/css/journal.css?22290475">
 
 <script src="/js/loadCSS.js"></script>
 <script>
@@ -66,7 +70,7 @@
             <a class="a-block drawer-menu-item false" href="http://tangerinew.com">
                 主頁
             </a>
-            <a class="a-block drawer-menu-item active" href="/archives">
+            <a class="a-block drawer-menu-item false" href="/archives">
                 歸檔
             </a>
 
@@ -124,7 +128,7 @@
 
     <div class="nav-link-list">
 
-        <a class="a-block no-tint nav-link-item active" href="/archives">
+        <a class="a-block no-tint nav-link-item false" href="/archives">
             歸檔
         </a>
         
@@ -163,51 +167,49 @@
         </a>
 
         
-        
-
-        
-
-        
-        
     </div>
 </div>
 
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
-        
-        
-        <div class="post-item-wrapper post-item-wrapper-no-hover">
-            <div class="post-item post-item-no-gaps">
-                <div class="post-item-info-wrapper">
-                    <div class="post-item-title  post-item-title-small">
-                        
-                        <a href="/archives/2019">2019</a> / 09
-                        
-                    </div>
+        <div class="post">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
+                <div class="post-title">
+                    
+                    
                 </div>
             </div>
-        </div>
-        
-
-        <a href="/2019/09/27/Hexo_theme_Orange/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-gaps">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            Hexo Theme：Orange.
-                        </div>
-                        <div class="post-item-meta">
-                            2019-09-27
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        
-    </div>
     
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <h1 id="相邻数对"><a href="#相邻数对" class="headerlink" title="相邻数对"></a>相邻数对</h1><blockquote>
+<p>问题描述</p>
+<p>　　给定n个不同的整数，问这些数中有多少对整数，它们的值正好相差1。</p>
+<p>输入格式</p>
+<p>　　输入的第一行包含一个整数n，表示给定整数的个数。<br>　　第二行包含所给定的n个整数。</p>
+<p>输出格式</p>
+<p>　　输出一个整数，表示值正好相差1的数对的个数。</p>
+<p>样例输入</p>
+<p>6<br>10 2 6 3 7 8</p>
+<p>样例输出</p>
+<p>3</p>
+<p>样例说明</p>
+<p>　　值正好相差1的数对包括(2, 3), (6, 7), (7, 8)。</p>
+<p>评测用例规模与约定</p>
+<p>　　1&lt;=n&lt;=1000，给定的整数为不超过10000的非负整数。</p>
+</blockquote>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXN 1000</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> data[MAXN];</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; n;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n;i ++) <span class="built_in">cin</span> &gt;&gt; data[i];</span><br><span class="line">    sort(data, data+n);</span><br><span class="line">    <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n<span class="number">-1</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (data[i] == data[i+<span class="number">1</span>]<span class="number">-1</span>) &#123;</span><br><span class="line">            cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; cnt &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+
+                </div>
+            </div>
+    
+            
+
+
+        </div>
+    </div>
     <div class="single-column-footer">
     Proudly published with Hexo<br>
     
@@ -228,7 +230,9 @@
         integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
         integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?11461235"></script>
+<script src="/js/journal.js?18666877"></script>
+
+
 
 </body>
 </html>
