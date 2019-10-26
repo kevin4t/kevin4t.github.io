@@ -8,7 +8,8 @@
 <meta charset="utf-8">
 <meta name="X-UA-Compatible" content="IE=edge">
 <meta name="author" content="Kevin">
-<meta name="description" content="使用到的技术及工具：NodeJs、Js、CSS、Bootstrap、Express、Superagent、Chee...">
+<meta name="description" content="使用到的技术及工具：Python、Js、CSS、Bootstrap、Docker、Nginx
+额外需要的：一台服务...">
 <meta name="keywords" content="">
 
 <link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
@@ -20,7 +21,7 @@
     <meta name="renderer" content="webkit">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?11726289">
+<link rel="stylesheet" href="/css/journal.css?47987145">
 
 <script src="/js/loadCSS.js"></script>
 <script>
@@ -186,9 +187,18 @@
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <p>使用到的技术及工具：<br>NodeJs、Js、CSS、Bootstrap、Express、Superagent、Cheerio</p>
+                    <p>使用到的技术及工具：<br>Python、Js、CSS、Bootstrap、Docker、Nginx</p>
 <p>额外需要的：<br>一台服务器</p>
-<h2 id="1-编写爬虫前的准备工作"><a href="#1-编写爬虫前的准备工作" class="headerlink" title="1. 编写爬虫前的准备工作"></a>1. 编写爬虫前的准备工作</h2><h2 id="2-编写爬虫"><a href="#2-编写爬虫" class="headerlink" title="2. 编写爬虫"></a>2. 编写爬虫</h2><h2 id="3-部署"><a href="#3-部署" class="headerlink" title="3. 部署"></a>3. 部署</h2><h2 id="4-Hexo自定义页面的搭建"><a href="#4-Hexo自定义页面的搭建" class="headerlink" title="4. Hexo自定义页面的搭建"></a>4. Hexo自定义页面的搭建</h2><p>使用Vue搭建Hexo的自定义页面</p>
+<h2 id="1-编写爬虫前的准备工作"><a href="#1-编写爬虫前的准备工作" class="headerlink" title="1. 编写爬虫前的准备工作"></a>1. 编写爬虫前的准备工作</h2><p>首先，我们明确该项目的大概流程：</p>
+<ol>
+<li>登录淘宝，获取cookie。</li>
+<li>通过cookie访问淘票票页面，获取信息并保存。</li>
+<li>定时重复步骤1,2，在服务器端运行web程序，返回保存的数据，供客户端请求信息。</li>
+</ol>
+<p>我们通过抓包软件可以获取</p>
+<h2 id="2-编写爬虫"><a href="#2-编写爬虫" class="headerlink" title="2. 编写爬虫"></a>2. 编写爬虫</h2><p>获取淘宝cookie的过程过于繁琐，好在Github上找到了pig6/login_taobao这个项目，可以用它来得到cookie。</p>
+<h2 id="3-部署"><a href="#3-部署" class="headerlink" title="3. 部署"></a>3. 部署</h2><p>使用Docker部署项目</p>
+<h2 id="4-Hexo自定义页面的搭建"><a href="#4-Hexo自定义页面的搭建" class="headerlink" title="4. Hexo自定义页面的搭建"></a>4. Hexo自定义页面的搭建</h2><p>搭建Hexo的自定义页面，通过Ajax向服务器发送请求，处理数据后渲染于网页上。</p>
 <p>Github项目地址</p>
 
                 </div>
@@ -230,7 +240,7 @@
         integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
         integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?99355156"></script>
+<script src="/js/journal.js?24018868"></script>
 
 
 
