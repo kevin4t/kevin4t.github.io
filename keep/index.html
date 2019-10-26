@@ -30,7 +30,7 @@
     <meta name="renderer" content="webkit">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?85527045">
+<link rel="stylesheet" href="/css/journal.css?89426260">
 
 <script src="/js/loadCSS.js"></script>
 <script>
@@ -216,22 +216,36 @@
 				type:'get',//HTTP请求类型
 				timeout:10000,//超时时间设置为10秒；
 				success:function(data){
-					document.getElementById("refreshTime").innerHTML += timestampToTime(data['data']['timestamp'])
+					document.getElementById("refreshTime").innerHTML = "最后更新时间: " + timestampToTime(data['data']['timestamp'])
 					document.getElementById("myDiv").innerHTML = ""
 					var list = data['data']['returnValue']['shows']
 					var imageUrl = "https://gw.alicdn.com/"
 					for(var i = 0; i < list.length; i++) {
-						document.getElementById("myDiv").innerHTML += "<div id='' class='id-w'>" +
-						"<img src="+ imageUrl + list[i].poster +" style='height:200px; width:130px'>"+list[i].userComment.content+
-						"<div id=''> " + list[i].showName + "</div>" +
-						"<div id=''>" + list[i].director + "</div></div><hr>";
+						document.getElementById("myDiv").innerHTML +=
+						"<div class='media'><div class='media-left'>"+
+						"<img class='media-object' src=" + imageUrl + list[i].poster + " class='poster'>"+
+						"</div><div class='media-body'>"+
+						"<h4 class='media-heading'>" + list[i].showName + " / " + list[i].features.year + "</h4>"+
+						"<div class='comment_time'>" + timestampToTime(list[i].userComment.commentTime) +"</div>"+
+						list[i].userComment.content +
+						"</div>"+
+						"</div>"
+						
+  
+  
 						
 					}
 				}
 			});
 		}
 		function timestampToTime(timestamp) {
-			var date = new Date(parseInt(timestamp));//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+			var int_ts = 0;
+			if (timestamp.length == 10) {
+				int_ts = parseInt(timestamp);
+			} else {
+				int_ts = parseInt(timestamp*1000);
+			}
+			var date = new Date(int_ts);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
 			Y = date.getFullYear() + '-';
 			M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
 			D = date.getDate() + ' ';
@@ -257,9 +271,9 @@
  <div class="tab-content">
   <div role="tabpanel" class="tab-pane fade in active" id="home">
 	<br>
-	<div class="alert alert-success" role="alert" id='refreshTime'>最后更新时间: </div>
+	<div class="alert alert-success" role="alert" id='refreshTime'>加载中...</div>
 
-	<div id="myDiv"><h2>Loading...</h2></div>
+	<div id="myDiv" class="movies_content"><h2>Loading...</h2></div>
   </div>
   <div role="tabpanel" class="tab-pane fade" id="profile">...2</div>
 </div>
@@ -268,7 +282,17 @@
 
 	
 
-  
+	<style>
+		.movies_content {
+			    margin: auto;
+				padding: 10px;
+				height:130px;
+		}
+		.media-object {
+			height:200px;
+			width:130px;
+		}
+	</style>
 
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
@@ -304,7 +328,7 @@
         integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
         integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?72506581"></script>
+<script src="/js/journal.js?41747288"></script>
 
 
 
