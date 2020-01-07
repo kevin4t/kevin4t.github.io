@@ -31,7 +31,7 @@
     <meta name="renderer" content="webkit">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?75590455">
+<link rel="stylesheet" href="/css/journal.css?3668111">
 
 <script src="/js/loadCSS.js"></script>
 <script>
@@ -83,12 +83,12 @@
 
             
             
-            <a class="a-block drawer-menu-item false" href="/about.html">
-                關於
-            </a>
-            
             <a class="a-block drawer-menu-item false" href="/friends.html">
                 友鏈
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/about.html">
+                關於
             </a>
             
             <a class="a-block drawer-menu-item false" href="/keep/index.html">
@@ -144,12 +144,12 @@
         </a>
         
         
-        <a class="a-block nav-link-item false" href="/about.html">
-            關於
-        </a>
-        
         <a class="a-block nav-link-item false" href="/friends.html">
             友鏈
+        </a>
+        
+        <a class="a-block nav-link-item false" href="/about.html">
+            關於
         </a>
         
         <a class="a-block nav-link-item false" href="/keep/index.html">
@@ -239,7 +239,7 @@
 <p>我们通过Chrome/FireFox的开发者工具可以获取到：</p>
 <p>淘宝的登陆地址 <a href="https://login.taobao.com/member/login.jhtml" target="_blank" rel="noopener">https://login.taobao.com/member/login.jhtml</a></p>
 <p>电影数据的请求地址 <a href="https://acs.m.taobao.com/h5/mtop.film.mtopshowapi.getwatchedshow/6.8/" target="_blank" rel="noopener">https://acs.m.taobao.com/h5/mtop.film.mtopshowapi.getwatchedshow/6.8/</a> </p>
-<h2><span id="2-编写爬虫">2. 编写爬虫</span></h2><h4><span id="获取cookies">获取Cookies</span></h4><p>获取淘宝Cookies的过程过于繁琐，好在Github上找到了<a href="https://github.com/pig6/login_taobao" target="_blank" rel="noopener">pig6 / login_taobao</a>这个项目，可以用它来得到Cookies。 </p>
+<h2><span id="2-编写爬虫">2. 编写爬虫</span></h2><h4><span id="获取cookies">获取Cookies</span></h4><p>获取淘宝Cookies的过程过于繁琐，幸好在Github上找到了<a href="https://github.com/pig6/login_taobao" target="_blank" rel="noopener">pig6 / login_taobao</a>这个项目，可以用它来得到Cookies。 </p>
 <h4><span id="请求数据">请求数据</span></h4><p>获得Cookies后，用相应的参数带上Cookies向之前获取的的电影数据的请求地址进行POST请求。<br>请求的参数有：</p>
 <table>
 <thead>
@@ -294,14 +294,14 @@
 </tr>
 <tr>
 <td>t</td>
-<td>self.get_time()</td>
+<td>get_time()</td>
 </tr>
 <tr>
 <td>sign</td>
-<td>self.get_sign()</td>
+<td>get_sign()</td>
 </tr>
 </tbody></table>
-<p>其中，<code>t</code>为当前时间的时间戳，我们用<code>get_time</code>函数来获取：</p>
+<p>其中，<code>t</code>为当前时间的时间戳，我们用<code>get_time()</code>函数来获取：</p>
 <pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">get_time</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token triple-quoted-string string">"""
     获取时间戳
@@ -310,7 +310,7 @@
     now <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
     t <span class="token operator">=</span> int<span class="token punctuation">(</span>round<span class="token punctuation">(</span>now <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 毫秒</span>
     <span class="token keyword">return</span> str<span class="token punctuation">(</span>t<span class="token punctuation">)</span></code></pre>
-<p><code>sign</code>参数需要通过计算获得，方法为Cookies中的<code>token</code>字段、<code>appKey</code>值和<code>data</code>值用‘&amp;’连接后进行md5加密，计算方法如下：</p>
+<p><code>sign</code>参数需要通过计算获得，方法为Cookies中的<code>token</code>字段、<code>appKey</code>值、刚刚获取的<code>t</code>值和<code>data</code>值用‘&amp;’连接后进行md5加密，详细见<code>get_sign()</code>：</p>
 <pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">get_sign</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token triple-quoted-string string">"""
     计算sign
@@ -329,8 +329,8 @@
     s <span class="token operator">=</span> token<span class="token operator">+</span><span class="token string">'&amp;'</span><span class="token operator">+</span>self<span class="token punctuation">.</span>t<span class="token operator">+</span><span class="token string">'&amp;'</span><span class="token operator">+</span>self<span class="token punctuation">.</span>appKey<span class="token operator">+</span><span class="token string">'&amp;'</span><span class="token operator">+</span>self<span class="token punctuation">.</span>data
     sign <span class="token operator">=</span> self<span class="token punctuation">.</span>encrypt_md5<span class="token punctuation">(</span>s<span class="token punctuation">)</span>
     <span class="token keyword">return</span> sign</code></pre>
-<p><code>data</code>参数为一个字典，是对需要请求的数据进行设置。其中<code>pageSize</code>用来表示单次请求的电影数量, 为了尽量一次获取完,其值设置尽可能高。</p>
-<p>然而此时直接请求仍会显示请求失败，原因是在Cookies中缺少 <code>_m_h5_th</code>字段 。可能是因为我们请求的淘票票API只针对手机端有效，而之前我们获取Cookies是在PC端的API进行获取的，所以<code>_m_h5_th</code>字段没有被加入Cookies中。</p>
+<p><code>data</code>参数包含多个键值，它们是对需要请求的数据进行设置。其中<code>pageSize</code>用来表示单次请求的电影数量, 为了尽量一次获取完,其值设置尽可能高。</p>
+<p>然而此时直接请求仍会显示请求失败，原因是在Cookies中缺少 <code>_m_h5_th</code>字段 。可能是因为我们请求的淘票票API只针对手机端有效，而之前我们获取Cookies是用PC端的API进行获取的，所以<code>_m_h5_th</code>字段没有被加入Cookies中。</p>
 <p>解决方法：</p>
 <p>带上当前的Cookies访问 <a href="https://acs.m.taobao.com/h5/mtop.alimama.union.hsf.mama.coupon.get/1.0/?appKey=12574478&amp;v=1" target="_blank" rel="noopener">https://acs.m.taobao.com/h5/mtop.alimama.union.hsf.mama.coupon.get/1.0/?appKey=12574478&amp;v=1</a> ，可以置换出带<code>_m_h5_th</code>字段的Cookies。</p>
 <h4><span id="建立web服务">建立Web服务</span></h4><p>使用轻量级的的Flask框架，建立Web服务，以供客户端请求，返回获取的电影信息。</p>
@@ -396,10 +396,10 @@ layout: false
 ---</code></pre><p>在同目录创建index.html文件，通过Ajax向服务器发送请求，处理数据后渲染于网页上。</p>
 <pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">loadMoviesWatched</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     $<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-        url<span class="token punctuation">:</span> <span class="token string">'https://me.tangerinew.com/'</span><span class="token punctuation">,</span>
-        dataType<span class="token punctuation">:</span><span class="token string">'json'</span><span class="token punctuation">,</span><span class="token comment" spellcheck="true">//服务器返回json格式数据</span>
-        type<span class="token punctuation">:</span><span class="token string">'get'</span><span class="token punctuation">,</span><span class="token comment" spellcheck="true">//HTTP请求类型</span>
-        timeout<span class="token punctuation">:</span><span class="token number">10000</span><span class="token punctuation">,</span><span class="token comment" spellcheck="true">//超时时间设置为10秒；</span>
+        url<span class="token punctuation">:</span> <span class="token string">'https://me.tangerinew.com/'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 改成你自己的地址</span>
+        dataType<span class="token punctuation">:</span><span class="token string">'json'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 服务器返回json格式数据</span>
+        type<span class="token punctuation">:</span><span class="token string">'get'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// HTTP请求类型</span>
+        timeout<span class="token punctuation">:</span><span class="token number">10000</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 超时时间设置为10秒；</span>
         success<span class="token punctuation">:</span><span class="token keyword">function</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">{</span>
             document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"refreshTime"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token string">"最后更新时间: "</span> <span class="token operator">+</span> <span class="token function">timestampToTime</span><span class="token punctuation">(</span>data<span class="token punctuation">[</span><span class="token string">'data'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'timestamp'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
             document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"myDiv"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token string">""</span>
@@ -464,7 +464,7 @@ layout: false
         integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
         integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?59472926"></script>
+<script src="/js/journal.js?2796788"></script>
 
 
 
