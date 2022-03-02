@@ -1,0 +1,488 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>利用爬虫实现淘票票「看过的电影」自动更新至Hexo博客 - Tangerinew.</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="Kevin">
+<meta name="description" content="
+
+
+1. 编写爬虫前的准备工作
+2. 编写爬虫
+获取Cookies
+请求数据
+建立Web服务
+
+
+3. 部署
+4...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?97565606">
+
+<script src="/js/loadCSS.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    loadCSS("https://fonts.googleapis.com/css?family=Lora|Montserrat|Fira+Mono|Material+Icons");
+    (function (d) {
+        var config = {
+                kitId: 'dwg1tuc',
+                scriptTimeout: 3000,
+                async: true
+            },
+            h = d.documentElement, t = setTimeout(function () {
+                h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+            }, config.scriptTimeout), tk = d.createElement("script"), f = false,
+            s = d.getElementsByTagName("script")[0], a;
+        h.className += " wf-loading";
+        tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+        tk.async = true;
+        tk.onload = tk.onreadystatechange = function () {
+            a = this.readyState;
+            if (f || a && a != "complete" && a != "loaded") return;
+            f = true;
+            clearTimeout(t);
+            try {
+                Typekit.load(config)
+            } catch (e) {
+            }
+        };
+        s.parentNode.insertBefore(tk, s)
+    })(document);
+</script>
+<noscript>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+</noscript>
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+<body>
+<div id="top"></div>
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="http://tangerinew.com">
+                主頁
+            </a>
+            <a class="a-block drawer-menu-item false" href="/archives">
+                歸檔
+            </a>
+
+            
+            
+            <a class="a-block drawer-menu-item false" href="/about.html">
+                關於
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/friends.html">
+                友鏈
+            </a>
+            
+            <a class="a-block drawer-menu-item false" href="/keep/index.html">
+                記錄
+            </a>
+            
+
+            
+            <a class="a-block drawer-menu-item" href="/atom.xml">
+                RSS
+            </a>
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            Tangerinew.
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">Tangerinew.</div>
+        <div class="single-column-header-subtitle"></div>
+    </a>
+</div>
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            Tangerinew.
+        </div>
+        <div class="nav-subtitle">
+            隻言片語<br>於此匯聚
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+
+        <a class="a-block no-tint nav-link-item false" href="/archives">
+            歸檔
+        </a>
+        
+        
+        <a class="a-block nav-link-item false" href="/about.html">
+            關於
+        </a>
+        
+        <a class="a-block nav-link-item false" href="/friends.html">
+            友鏈
+        </a>
+        
+        <a class="a-block nav-link-item false" href="/keep/index.html">
+            記錄
+        </a>
+        
+
+        
+        <a class="a-block no-tint nav-link-item" href="/atom.xml">
+            RSS
+        </a>
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Proudly published with Hexo<br>
+        
+        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2022 <a href="http://tangerinew.com">Tangerinew.</a>
+    </div>
+</div>
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
+                <div class="post-title">
+                    利用爬虫实现淘票票「看过的电影」自动更新至Hexo博客
+                    <div class="post-meta">
+                        <time datetime="2019-10-19T13:40:50.000Z" itemprop="datePublished">
+                            2019-10-19 21:40
+                        </time>&nbsp;
+                        
+    
+                        
+                        
+                        <i class="material-icons" style="">label</i>
+                        
+                        <a href='/tags/爬虫/'>爬虫</a>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+    
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <!-- toc -->
+
+<ul>
+<li><a href="#1-编写爬虫前的准备工作">1. 编写爬虫前的准备工作</a></li>
+<li><a href="#2-编写爬虫">2. 编写爬虫</a><ul>
+<li><a href="#获取cookies">获取Cookies</a></li>
+<li><a href="#请求数据">请求数据</a></li>
+<li><a href="#建立web服务">建立Web服务</a></li>
+</ul>
+</li>
+<li><a href="#3-部署">3. 部署</a></li>
+<li><a href="#4-搭建hexo自定义页面">4. 搭建Hexo自定义页面</a></li>
+</ul>
+<!-- tocstop -->
+
+<p>使用到的技术及工具：<br>Python、Js、CSS、Bootstrap、Docker、nginx</p>
+<p>额外需要的：<br>VPS</p>
+<p>效果预览：<a href="https://tangerinew.com/keep/index.html">Tangerinew.</a> </p>
+<p> <img src="https://raw.githubusercontent.com/kevin4t/taopiaopiao-spider/master/README/1572142341234.png" alt="img"></p>
+<h2><span id="1-编写爬虫前的准备工作">1. 编写爬虫前的准备工作</span></h2><p>项目的大概流程：</p>
+<ol>
+<li>登录淘宝，获取Cookie。</li>
+<li>通过cookie访问淘票票页面，获取信息并保存。</li>
+<li>定时重复步骤1,2，在服务器端运行web程序，返回保存的数据，供客户端请求信息。</li>
+</ol>
+<p>我们通过Chrome/FireFox的开发者工具可以获取到：</p>
+<p>淘宝的登陆地址 <a href="https://login.taobao.com/member/login.jhtml" target="_blank" rel="noopener">https://login.taobao.com/member/login.jhtml</a></p>
+<p>电影数据的请求地址 <a href="https://acs.m.taobao.com/h5/mtop.film.mtopshowapi.getwatchedshow/6.8/" target="_blank" rel="noopener">https://acs.m.taobao.com/h5/mtop.film.mtopshowapi.getwatchedshow/6.8/</a> </p>
+<h2><span id="2-编写爬虫">2. 编写爬虫</span></h2><h4><span id="获取cookies">获取Cookies</span></h4><p>获取淘宝Cookies的过程过于繁琐，幸好在Github上找到了<a href="https://github.com/pig6/login_taobao" target="_blank" rel="noopener">pig6 / login_taobao</a>这个项目，可以用它来得到Cookies。 </p>
+<h4><span id="请求数据">请求数据</span></h4><p>获得Cookies后，用相应的参数带上Cookies向之前获取的的电影数据的请求地址进行POST请求。<br>请求的参数有：</p>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>jsv</td>
+<td>2.5.1</td>
+</tr>
+<tr>
+<td>appKey</td>
+<td>12574478</td>
+</tr>
+<tr>
+<td>api</td>
+<td>mtop.film.mtopshowapi.getwatchedshow</td>
+</tr>
+<tr>
+<td>v</td>
+<td>6.8</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>10000</td>
+</tr>
+<tr>
+<td>forceAntiCreep</td>
+<td>true</td>
+</tr>
+<tr>
+<td>AntiCreep</td>
+<td>true</td>
+</tr>
+<tr>
+<td>type</td>
+<td>jsonp</td>
+</tr>
+<tr>
+<td>dataType</td>
+<td>jsonp</td>
+</tr>
+<tr>
+<td>callback</td>
+<td>mtojsonp2</td>
+</tr>
+<tr>
+<td>data</td>
+<td>{“ecode”:1,”pageSize”:100,”currentPage”:1,”lastId”:0,”platform”:”8”}</td>
+</tr>
+<tr>
+<td>t</td>
+<td>get_time()</td>
+</tr>
+<tr>
+<td>sign</td>
+<td>get_sign()</td>
+</tr>
+</tbody></table>
+<p>其中，<code>t</code>为当前时间的时间戳，我们用<code>get_time()</code>函数来获取：</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">get_time</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    获取时间戳
+    :return: 当前时间的时间戳
+    """</span>
+    now <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    t <span class="token operator">=</span> int<span class="token punctuation">(</span>round<span class="token punctuation">(</span>now <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 毫秒</span>
+    <span class="token keyword">return</span> str<span class="token punctuation">(</span>t<span class="token punctuation">)</span></code></pre>
+<p><code>sign</code>参数需要通过计算获得，方法为Cookies中的<code>token</code>字段、<code>appKey</code>值、刚刚获取的<code>t</code>值和<code>data</code>值用‘&amp;’连接后进行md5加密，详细见<code>get_sign()</code>：</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">get_sign</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    计算sign
+    :return: sign
+    """</span>
+    <span class="token comment" spellcheck="true"># 获取Cookie中的token</span>
+    cookie_list <span class="token operator">=</span> self<span class="token punctuation">.</span>Cookie<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">';'</span><span class="token punctuation">)</span>
+    _m_h5_tk <span class="token operator">=</span> <span class="token string">""</span>
+    <span class="token keyword">for</span> item <span class="token keyword">in</span> cookie_list<span class="token punctuation">:</span>
+        item <span class="token operator">=</span> item<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        kv <span class="token operator">=</span> item<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">'='</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> kv<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">'_m_h5_tk'</span><span class="token punctuation">:</span>
+            _m_h5_tk <span class="token operator">=</span> kv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+    token <span class="token operator">=</span> _m_h5_tk<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">'_'</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    <span class="token comment" spellcheck="true"># 计算sign</span>
+    s <span class="token operator">=</span> token<span class="token operator">+</span><span class="token string">'&amp;'</span><span class="token operator">+</span>self<span class="token punctuation">.</span>t<span class="token operator">+</span><span class="token string">'&amp;'</span><span class="token operator">+</span>self<span class="token punctuation">.</span>appKey<span class="token operator">+</span><span class="token string">'&amp;'</span><span class="token operator">+</span>self<span class="token punctuation">.</span>data
+    sign <span class="token operator">=</span> self<span class="token punctuation">.</span>encrypt_md5<span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> sign</code></pre>
+<p><code>data</code>参数包含多个键值，它们是对需要请求的数据进行设置。其中<code>pageSize</code>用来表示单次请求的电影数量, 为了尽量一次获取完,其值设置尽可能高。</p>
+<p>然而此时直接请求仍会显示请求失败，原因是在Cookies中缺少 <code>_m_h5_th</code>字段 。可能是因为我们请求的淘票票API只针对手机端有效，而之前我们获取Cookies是用PC端的API进行获取的，所以<code>_m_h5_th</code>字段没有被加入Cookies中。</p>
+<p>解决方法：</p>
+<p>带上当前的Cookies访问 <a href="https://acs.m.taobao.com/h5/mtop.alimama.union.hsf.mama.coupon.get/1.0/?appKey=12574478&amp;v=1" target="_blank" rel="noopener">https://acs.m.taobao.com/h5/mtop.alimama.union.hsf.mama.coupon.get/1.0/?appKey=12574478&amp;v=1</a> ，可以置换出带<code>_m_h5_th</code>字段的Cookies。</p>
+<h4><span id="建立web服务">建立Web服务</span></h4><p>使用轻量级的的Flask框架，建立Web服务，以供客户端请求，返回获取的电影信息。</p>
+<p>安装flask及相关依赖：</p>
+<pre class=" language-bash"><code class="language-bash">pip <span class="token function">install</span> flask
+pip <span class="token function">install</span> flask_cors
+pip <span class="token function">install</span> flask_apscheduler</code></pre>
+<p>app.py：</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> flask <span class="token keyword">import</span> Flask<span class="token punctuation">,</span> Response
+<span class="token keyword">from</span> flask_cors <span class="token keyword">import</span> cross_origin
+<span class="token keyword">from</span> flask_apscheduler <span class="token keyword">import</span> APScheduler
+<span class="token keyword">import</span> get_data
+
+data <span class="token operator">=</span> <span class="token string">""</span>
+
+
+<span class="token keyword">class</span> <span class="token class-name">Config</span><span class="token punctuation">(</span>object<span class="token punctuation">)</span><span class="token punctuation">:</span>  <span class="token comment" spellcheck="true"># 创建配置，用类</span>
+    <span class="token comment" spellcheck="true"># 任务列表</span>
+    JOBS <span class="token operator">=</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            <span class="token string">'id'</span><span class="token punctuation">:</span> <span class="token string">'job1'</span><span class="token punctuation">,</span>
+            <span class="token string">'func'</span><span class="token punctuation">:</span> <span class="token string">'__main__:refresh_data'</span><span class="token punctuation">,</span>  <span class="token comment" spellcheck="true"># 方法名</span>
+            <span class="token string">'trigger'</span><span class="token punctuation">:</span> <span class="token string">'interval'</span><span class="token punctuation">,</span>  <span class="token comment" spellcheck="true"># interval表示循环任务</span>
+            <span class="token string">'days'</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+
+
+<span class="token keyword">def</span> <span class="token function">refresh_data</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">global</span> data
+    data <span class="token operator">=</span> get_data<span class="token punctuation">.</span>refresh_data<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+app <span class="token operator">=</span> Flask<span class="token punctuation">(</span>__name__<span class="token punctuation">)</span>
+app<span class="token punctuation">.</span>config<span class="token punctuation">.</span>from_object<span class="token punctuation">(</span>Config<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 为实例化的flask引入配置</span>
+refresh_data<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+@app<span class="token punctuation">.</span>route<span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">)</span>
+@cross_origin<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> Response<span class="token punctuation">(</span>data<span class="token punctuation">,</span> mimetype<span class="token operator">=</span><span class="token string">'application/json'</span><span class="token punctuation">)</span>
+
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    scheduler <span class="token operator">=</span> APScheduler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    scheduler<span class="token punctuation">.</span>init_app<span class="token punctuation">(</span>app<span class="token punctuation">)</span>
+    scheduler<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    app<span class="token punctuation">.</span>run<span class="token punctuation">(</span>debug<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span></code></pre>
+<p>此Web服务有两个作用：</p>
+<ol>
+<li>供浏览器请求数据。</li>
+<li>定时重新获取淘票票信息，保存在内存中。</li>
+</ol>
+<h2><span id="3-部署">3. 部署</span></h2><p>使用Docker部署项目,Docker的安装与使用请参见<a href="https://www.runoob.com/docker/docker-tutorial.html" target="_blank" rel="noopener">Docker 教程</a>。</p>
+<p>您当然也可以不使用Docker，在您的VPS中直接运行<code>app.py</code>。</p>
+<p>注意：直接运行<code>app.py</code>的方法仅适用于开发环境，在生产环境下，推荐使用 <code>nginx</code> + <code>uwsgi</code> + <code>flask</code> 的部署方案。</p>
+<h2><span id="4-搭建hexo自定义页面">4. 搭建Hexo自定义页面</span></h2><p>在Hexo的sourse文件夹下新建文件夹Movie，在其中创建<code>index.md</code>文件，输入以下参数。</p>
+<pre><code>---
+title: 記錄
+date: 2019-10-19 20:56:22
+showOnIndex: true
+layout: false
+---</code></pre><p>在同目录创建index.html文件，通过Ajax向服务器发送请求，处理数据后渲染于网页上。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">loadMoviesWatched</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    $<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        url<span class="token punctuation">:</span> <span class="token string">'https://me.tangerinew.com/'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 改成你自己的地址</span>
+        dataType<span class="token punctuation">:</span><span class="token string">'json'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 服务器返回json格式数据</span>
+        type<span class="token punctuation">:</span><span class="token string">'get'</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// HTTP请求类型</span>
+        timeout<span class="token punctuation">:</span><span class="token number">10000</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// 超时时间设置为10秒；</span>
+        success<span class="token punctuation">:</span><span class="token keyword">function</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"refreshTime"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token string">"最后更新时间: "</span> <span class="token operator">+</span> <span class="token function">timestampToTime</span><span class="token punctuation">(</span>data<span class="token punctuation">[</span><span class="token string">'data'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'timestamp'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"myDiv"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token string">""</span>
+            <span class="token keyword">var</span> list <span class="token operator">=</span> data<span class="token punctuation">[</span><span class="token string">'data'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'returnValue'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'shows'</span><span class="token punctuation">]</span>
+            <span class="token keyword">var</span> imageUrl <span class="token operator">=</span> <span class="token string">"https://gw.alicdn.com/"</span>
+            <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> list<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"myDiv"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>innerHTML <span class="token operator">+</span><span class="token operator">=</span>
+                <span class="token string">"&lt;div class='media'>&lt;div class='media-left'>"</span><span class="token operator">+</span>
+                <span class="token string">"&lt;img class='media-object' src="</span> <span class="token operator">+</span> imageUrl <span class="token operator">+</span> list<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>poster <span class="token operator">+</span> <span class="token string">">"</span><span class="token operator">+</span>
+                <span class="token string">"&lt;/div>&lt;div class='media-body'>"</span><span class="token operator">+</span>
+                <span class="token string">"&lt;h2 class='media-heading'>"</span> <span class="token operator">+</span> list<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>showName <span class="token operator">+</span> <span class="token string">" / "</span> <span class="token operator">+</span> list<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>features<span class="token punctuation">.</span>year <span class="token operator">+</span> <span class="token string">"&lt;/h2>"</span><span class="token operator">+</span>
+                <span class="token string">"&lt;div class='comment_time'>"</span> <span class="token operator">+</span> <span class="token function">timestampToTime</span><span class="token punctuation">(</span>list<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>userComment<span class="token punctuation">.</span>commentTime<span class="token punctuation">)</span> <span class="token operator">+</span><span class="token string">"&lt;/div>"</span> <span class="token operator">+</span>
+                list<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>userComment<span class="token punctuation">.</span>content <span class="token operator">+</span>
+                <span class="token string">"&lt;/div>"</span> <span class="token operator">+</span>
+                <span class="token string">"&lt;/div>"</span>    
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Github项目地址：<a href="https://github.com/kevin4t" target="_blank" rel="noopener">kevin4t</a>/<strong><a href="https://github.com/kevin4t/taopiaopiao-spider" target="_blank" rel="noopener">taopiaopiao-spider</a></strong></p>
+
+                </div>
+            </div>
+    
+            <nav class="post-pagination">
+    
+    <a class="newer-posts" href="/2019/12/28/2019%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">
+        上一篇<br>2019年度总结
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/0101/10/01/CCF/">
+        下一篇<br>CCF刷题
+    </a>
+    
+</nav>
+
+    
+            
+
+<div class="post-comment-wrapper">
+	<div id="vcomments"></div>
+</div>
+</span>
+
+        </div>
+    </div>
+    <div class="single-column-footer">
+    Proudly published with Hexo<br>
+    
+    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2022 <a href="http://tangerinew.com">Tangerinew.</a>
+</div>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"
+        integrity="sha256-EGs9T1xMHdvM1geM8jPpoo8EZ1V1VRsmcJz8OByENLA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"
+        integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
+        integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
+<script src="/js/journal.js?7291314"></script>
+
+
+<script>
+		var id = 'rPeFu0HLTbl91trcLeyIpRWy-gzGzoHsz'
+		var key = 'DQM3KDrULxa9pDAUMMyV67Um'
+        new Valine({
+            el: '#vcomments',
+            appId: id,
+            appKey: key,
+			placeholder: 'Comment here!'
+        })
+</script>
+
+
+</body>
+</html>
