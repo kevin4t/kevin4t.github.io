@@ -4,13 +4,11 @@
 <html lang="zh-TW" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title> - Tangerinew.</title>
+    <title>2021年度总结 - Tangerinew.</title>
 <meta charset="utf-8">
 <meta name="X-UA-Compatible" content="IE=edge">
 <meta name="author" content="Kevin">
-<meta name="description" content="字符串匹配
-问题描述
-　　给出一个字符串和多行文字，在这些文字中找到字符串出现的那些行。你的程序还需支持大小写敏感...">
+<meta name="description" content="">
 <meta name="keywords" content="">
 
 <link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
@@ -22,7 +20,7 @@
     <meta name="renderer" content="webkit">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?59450224">
+<link rel="stylesheet" href="/css/journal.css?13118023">
 
 <script src="/js/loadCSS.js"></script>
 <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
@@ -180,59 +178,43 @@
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
         <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
+            <div class="post-head-wrapper"
+                 style="background-image: url('/2022/03/03/The-Year-2021/seu.jpeg')">
                 <div class="post-title">
-                    
-                    
+                    2021年度总结
+                    <div class="post-meta">
+                        <time datetime="2022-03-02T16:00:00.000Z" itemprop="datePublished">
+                            2022-03-03 00:00
+                        </time>&nbsp;
+                        
+    
+                        
+                        
+                        <i class="material-icons" style="">label</i>
+                        
+                        <a href='/tags/生活/'>生活</a>
+                        
+                        
+                    </div>
                 </div>
             </div>
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <link rel="stylesheet" class="aplayer-secondary-style-marker" href="assets/css/APlayer.min.css"><script src="assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="assets/js/Meting.min.js"></script><h1><span id="字符串匹配">字符串匹配</span></h1><blockquote>
-<p>问题描述</p>
-<p>　　给出一个字符串和多行文字，在这些文字中找到字符串出现的那些行。你的程序还需支持大小写敏感选项：当选项打开时，表示同一个字母的大写和小写看作不同的字符；当选项关闭时，表示同一个字母的大写和小写看作相同的字符。</p>
-<p>输入格式</p>
-<p>　　输入的第一行包含一个字符串S，由大小写英文字母组成。<br>　　第二行包含一个数字，表示大小写敏感的选项，当数字为0时表示大小写不敏感，当数字为1时表示大小写敏感。<br>　　第三行包含一个整数n，表示给出的文字的行数。<br>　　接下来n行，每行包含一个字符串，字符串由大小写英文字母组成，不含空格和其他字符。</p>
-<p>输出格式</p>
-<p>　　输出多行，每行包含一个字符串，按出现的顺序依次给出那些包含了字符串S的行。</p>
-<p>样例输入</p>
-<p>Hello<br>1<br>5<br>HelloWorld<br>HiHiHelloHiHi<br>GrepIsAGreatTool<br>HELLO<br>HELLOisNOTHello</p>
-<p>样例输出</p>
-<p>HelloWorld<br>HiHiHelloHiHi<br>HELLOisNOTHello</p>
-<p>样例说明</p>
-<p>　　在上面的样例中，第四个字符串虽然也是Hello，但是大小写不正确。如果将输入的第二行改为0，则第四个字符串应该输出。</p>
-<p>评测用例规模与约定</p>
-<p>　　1&lt;=n&lt;=100，每个字符串的长度不超过100。</p>
-</blockquote>
-<h3><span id="代码">代码</span></h3><pre class=" language-c++"><code class="language-c++">#include <bits stdc++.h>
-
-using namespace std;
-
-int main()
-{
-   string s;
-   cin >> s;
-   int Cap_check, n;
-   cin >> Cap_check >> n;
-   for (int i = 0; i < n; i++) {
-        string t;
-        cin >> t;
-        if (Cap_check == 1) {
-            if (t.find(s) != -1) cout << t << endl;
-        } else {
-            string init = t;
-            transform(s.begin(), s.end(), s.begin(), ::tolower);
-            transform(t.begin(), t.end(), t.begin(), ::tolower);
-            if (t.find(s) != -1) cout << init << endl;
-        }
-   }
-}
-</bits></code></pre>
-
+                    
                 </div>
             </div>
+    
+            <nav class="post-pagination">
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/2021/01/14/The-Year-2020/">
+        下一篇<br>2020年度总结
+    </a>
+    
+</nav>
+
     
             
 
@@ -263,7 +245,7 @@ int main()
         integrity="sha256-FtWfRI+thWlNz2sB3SJbwKx5PgMyKIVgwHCTwa3biXc=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js"
         integrity="sha256-CI4Gq5E0io1Pv0xM3qPM+NUIOhbIBvC3GiN1Y4KhXpw=" crossorigin="anonymous"></script>
-<script src="/js/journal.js?49779972"></script>
+<script src="/js/journal.js?89714954"></script>
 
 
 <script>
